@@ -1,0 +1,16 @@
+module shiftreg ( out, clock, in reset);
+input in, clock,reset;
+output[0:31] out;
+reg [0:31] out_nxt;
+
+assign out = out_nxt;
+
+always@ (posedge clock)
+begin
+if (reset)
+out_nxt <= 32`b0;
+else
+out_nxt = {out_nxt, in};
+end
+
+endmodule

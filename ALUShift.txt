@@ -1,0 +1,38 @@
+module ALUAndOr (
+	input [31:0] A, B,
+	input [3:0] selectALU,
+	output [31:0] sumALU,
+	output carry);
+	
+	reg [31:0] results;
+	wire [32:0] temp;
+	assign sumALU = results;
+	assign temp = {1'b0,A} + {1'b0,B};
+	assign carry = temp[8];
+	
+	always @(selectALU)
+	begin
+		case(selectALU)
+		 3'b000: // Logical shift left
+           results = A<<1;
+         3'b001: // Logical shift right
+           results = A>>1;
+         3'b010: // Rotate left
+           results = {A[6:0],A[7]};
+         3'b011: // Rotate right
+           results = {A[0],A[7:1]};
+          3'b100: //  Logical and 
+           results = A & B;
+          3'b101: //  Logical or
+           results = A | B;
+          3'b110: //  Logical nor
+           results = ~(A | B);
+          3'b111: // Logical nand 
+           results = ~(A & B);
+        endcase
+	end
+	
+endmodule
+		
+		
+	
